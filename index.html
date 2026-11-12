@@ -1,0 +1,1310 @@
+<!doctype html>
+<html lang="zh-HK">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>放鬆小夥伴 Relax Buddy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F2EDE6; --ink:#46525A; --muted:#7C8B93; --line:rgba(70,82,90,.12);
+  --sage:#8FA39D; --sage-d:#6F857E; --sage-l:#DCE6E2;
+  --coral:#E8836B; --coral-l:#F8DDD4;
+  --card:rgba(255,255,255,.74); --card-solid:#FFFDFA;
+  --r:22px; --shadow:0 10px 30px rgba(70,82,90,.10), 0 2px 6px rgba(70,82,90,.06);
+  --font:"Nunito","PingFang HK","PingFang TC","Noto Sans TC","Microsoft JhengHei",system-ui,sans-serif;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{margin:0;height:100%}
+body{background:var(--bg);color:var(--ink);font-family:var(--font);-webkit-font-smoothing:antialiased;overflow-x:hidden}
+button,input{font:inherit;color:inherit}
+button{cursor:pointer}
+#bg{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
+.screen{position:relative;z-index:1}
+.fixed{position:fixed;inset:0;z-index:5}
+
+/* ---------- Home ---------- */
+#home{min-height:100%;padding:24px 16px 40px;display:flex;justify-content:center}
+.home-card{width:100%;max-width:760px;background:var(--card);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.7);border-radius:28px;box-shadow:var(--shadow);padding:28px clamp(16px,4vw,36px) 28px}
+.home-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.brand h1{margin:0;font-size:clamp(28px,5vw,40px);font-weight:800;letter-spacing:.02em;color:#56656D}
+.brand p{margin:6px 0 0;color:var(--muted);font-size:17px}
+.brand p span{display:inline-block;white-space:nowrap;margin-right:1.3em}
+.brand p b{color:var(--coral);font-weight:800}
+.brand p i{font-style:normal;color:var(--sage-d);font-weight:800}
+.lang-btn{flex:none;border:1px solid var(--line);background:#fff;border-radius:999px;padding:8px 14px;font-weight:700;font-size:14px}
+.section{margin-top:26px}
+.section h2{margin:0 0 12px;font-size:17px;font-weight:800;color:#56656D}
+.tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(118px,1fr));gap:12px}
+.tile{position:relative;border:2px solid transparent;background:#fff;border-radius:20px;padding:10px 8px 10px;display:flex;flex-direction:column;align-items:center;gap:6px;box-shadow:0 2px 8px rgba(70,82,90,.06);transition:transform .15s,border-color .15s}
+.tile:hover{transform:translateY(-2px)}
+.tile[aria-pressed="true"]{border-color:var(--sage);box-shadow:0 0 0 4px var(--sage-l)}
+.tile .pic{width:84px;height:84px;display:grid;place-items:center}
+.tile .pic svg,.tile .pic img{width:100%;height:100%;object-fit:contain}
+.tile .nm{font-weight:700;font-size:15px;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tile.upload .pic{border:2px dashed #C6D1CD;border-radius:16px;color:var(--sage-d)}
+.tile.upload .pic svg{width:34px;height:34px}
+.custom-panel{margin-top:14px;background:#fff;border-radius:18px;padding:14px 16px;display:grid;gap:12px}
+.row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.row label{font-weight:700;font-size:15px}
+.text-in{flex:1;min-width:160px;border:1px solid var(--line);border-radius:12px;padding:10px 12px;background:#FBFAF8;font-size:16px}
+.hint{color:var(--muted);font-size:14px;margin:0;line-height:1.5}
+.btn{border:none;border-radius:999px;padding:10px 18px;font-weight:700;background:var(--sage-l);color:var(--sage-d)}
+.btn:hover{filter:brightness(.97)}
+.modes{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.mode{text-align:left;border:2px solid transparent;background:#fff;border-radius:20px;padding:16px 18px;box-shadow:0 2px 8px rgba(70,82,90,.06)}
+.mode[aria-pressed="true"]{border-color:var(--sage);box-shadow:0 0 0 4px var(--sage-l)}
+.mode b{display:block;font-size:18px;font-weight:800;margin-bottom:4px}
+.mode span{color:var(--muted);font-size:14.5px;line-height:1.45}
+.seg{display:inline-flex;background:#fff;border-radius:999px;padding:4px;gap:4px;box-shadow:0 2px 8px rgba(70,82,90,.06)}
+.seg button{border:none;background:transparent;border-radius:999px;padding:9px 18px;font-weight:700;color:var(--muted)}
+.seg button[aria-pressed="true"]{background:var(--sage);color:#fff}
+.switch{display:inline-flex;align-items:center;gap:10px;font-weight:700;cursor:pointer;user-select:none}
+.switch input{appearance:none;-webkit-appearance:none;width:46px;height:28px;border-radius:999px;background:#D5DCD9;position:relative;transition:background .2s;cursor:pointer;margin:0}
+.switch input::after{content:"";position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.2);transition:transform .2s}
+.switch input:checked{background:var(--sage)}
+.switch input:checked::after{transform:translateX(18px)}
+.start-wrap{margin-top:30px;display:flex;flex-direction:column;align-items:center;gap:14px}
+.start{border:none;background:var(--sage);color:#fff;font-size:21px;font-weight:800;border-radius:999px;padding:16px 56px;box-shadow:0 10px 24px rgba(111,133,126,.35);transition:transform .15s,background .15s}
+.start:hover{background:var(--sage-d);transform:scale(1.03)}
+.privacy{display:flex;gap:8px;align-items:flex-start;color:var(--muted);font-size:13.5px;line-height:1.5;max-width:520px;text-align:left}
+.privacy svg{flex:none;width:18px;height:18px;margin-top:1px}
+
+/* ---------- Loading / error ---------- */
+.center-screen{display:flex;align-items:center;justify-content:center;padding:24px 16px;text-align:center}
+.spinner{width:58px;height:58px;border-radius:50%;border:5px solid var(--sage-l);border-top-color:var(--sage);animation:spin 1s linear infinite;margin:0 auto 22px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.msg-card{background:var(--card-solid);border-radius:26px;box-shadow:var(--shadow);padding:30px 26px;max-width:460px;width:100%}
+.msg-card h2{margin:0 0 10px;font-size:22px}
+.msg-card p{margin:0 0 20px;color:var(--muted);line-height:1.6}
+.btn-row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.btn.primary{background:var(--sage);color:#fff}
+
+/* ---------- Run ---------- */
+#run{display:flex;flex-direction:column;overflow:hidden;padding-top:env(safe-area-inset-top)}
+.topbar{display:flex;align-items:center;gap:10px;padding:12px 16px}
+.icon-btn{width:44px;height:44px;border-radius:50%;border:none;background:rgba(255,255,255,.75);display:grid;place-items:center;box-shadow:0 2px 8px rgba(70,82,90,.08);flex:none}
+.icon-btn svg{width:22px;height:22px;color:var(--ink)}
+.icon-btn[aria-pressed="true"]{background:var(--sage);}
+.icon-btn[aria-pressed="true"] svg{color:#fff}
+.dots{flex:1;display:flex;justify-content:center;gap:8px;flex-wrap:wrap}
+.dots i{width:10px;height:10px;border-radius:50%;background:rgba(111,133,126,.22);transition:all .3s}
+.dots i.done{background:var(--sage)}
+.dots i.cur{background:var(--coral);transform:scale(1.35)}
+.spacer{flex:1}
+.stage-area{flex:1;min-height:0;display:flex;align-items:center;justify-content:center;padding:4px 16px}
+#stage{position:relative;width:min(58vmin,420px,calc(100dvh - 330px));aspect-ratio:1;min-width:190px}
+#ring,#sparks{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+#ring{transform:rotate(-90deg)}
+#ring circle{fill:none;stroke-width:2.2}
+#ring .track{stroke:rgba(111,133,126,.14)}
+#ring .val{stroke:var(--sage);stroke-linecap:round;stroke-dasharray:289.03;stroke-dashoffset:289.03}
+#sparks path{stroke:var(--coral);stroke-width:2.2;stroke-linecap:round;fill:none}
+#charWrap{position:absolute;left:14%;top:12%;width:72%;height:72%;transform-origin:50% 92%;will-change:transform}
+#charWrap svg,#charWrap img{width:100%;height:100%;object-fit:contain;display:block;-webkit-user-drag:none;user-select:none}
+#bubbleLayer{position:absolute;inset:0;pointer-events:none;overflow:visible}
+.bub{position:absolute;bottom:18%;border-radius:50%;background:radial-gradient(circle at 35% 30%,rgba(255,255,255,.95),rgba(186,214,206,.55) 60%,rgba(186,214,206,.15));animation:rise var(--d,4s) ease-out forwards}
+@keyframes rise{0%{opacity:0;transform:translate(0,0) scale(.6)}15%{opacity:.9}100%{opacity:0;transform:translate(var(--dx,0px),-190%) scale(1.1)}}
+.speech{position:absolute;right:-4%;top:-2%;background:#fff;border-radius:18px;padding:9px 14px;font-weight:800;font-size:clamp(14px,2.4vmin,18px);box-shadow:var(--shadow);opacity:0;transform:translateY(6px) scale(.95);transition:opacity .3s,transform .3s;max-width:62%;pointer-events:none}
+.speech::after{content:"";position:absolute;left:18px;bottom:-8px;border:8px solid transparent;border-top-color:#fff;border-bottom:0}
+.speech.show{opacity:1;transform:none}
+.hand-pill{position:absolute;left:50%;bottom:-6px;transform:translateX(-50%);background:rgba(70,82,90,.82);color:#fff;border-radius:999px;padding:8px 16px;font-weight:700;font-size:15px;display:flex;gap:8px;align-items:center;white-space:nowrap;transition:opacity .3s}
+.hand-pill svg{width:18px;height:18px}
+.card-area{display:flex;justify-content:center;padding:6px 16px calc(18px + env(safe-area-inset-bottom))}
+#card{width:100%;max-width:600px;background:var(--card-solid);border-radius:var(--r);box-shadow:var(--shadow);padding:16px 20px 16px;border-top:5px solid var(--sage);transition:border-color .4s}
+#card.hot{border-top-color:var(--coral)}
+.step-row{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-bottom:6px}
+.step-label{font-size:14px;font-weight:800;color:var(--muted);letter-spacing:.03em}
+.det-chip{font-size:12.5px;font-weight:800;color:var(--sage-d);background:var(--sage-l);border-radius:999px;padding:4px 10px;white-space:nowrap}
+#mainText{margin:0;font-size:clamp(17px,2.6vmin,22px);line-height:1.5;font-weight:700;min-height:3em}
+.status{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:10px}
+#statusText{font-weight:800;color:var(--sage-d);font-size:17px}
+#card.hot #statusText{color:var(--coral)}
+#countNum{font-size:34px;font-weight:800;min-width:1.5em;text-align:right;color:var(--coral);font-variant-numeric:tabular-nums;line-height:1}
+#countNum.soft{color:var(--sage);font-size:26px}
+#camBox{position:fixed;left:16px;bottom:16px;width:150px;aspect-ratio:4/3;border-radius:14px;overflow:hidden;background:#DCD6CE;box-shadow:var(--shadow);opacity:.62;transition:opacity .2s;z-index:6}
+#camBox:hover{opacity:1}
+#camCanvas{width:100%;height:100%;display:block}
+#camBox .dot{position:absolute;right:8px;top:8px;width:10px;height:10px;border-radius:50%;background:#C9C2B8;box-shadow:0 0 0 2px rgba(255,255,255,.8)}
+#camBox .dot.on{background:#7CC49A}
+.pause-veil{position:absolute;inset:0;display:grid;place-items:center;background:rgba(242,237,230,.6);border-radius:50%;font-weight:800;font-size:22px;color:var(--sage-d)}
+
+/* ---------- Overlays ---------- */
+.overlay{position:fixed;inset:0;z-index:20;display:flex;align-items:center;justify-content:center;padding:24px 16px;background:rgba(242,237,230,.72);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.sheet{background:var(--card-solid);border-radius:28px;box-shadow:var(--shadow);padding:28px 24px;max-width:560px;width:100%;text-align:center;max-height:100%;overflow:auto}
+.sheet h2{margin:0 0 6px;font-size:clamp(20px,3.4vw,26px)}
+.sheet p{margin:0 0 18px;color:var(--muted)}
+.scale{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:8px 0 18px}
+.scale button{border:2px solid transparent;background:#F6F3EF;border-radius:18px;padding:12px 4px 10px;display:flex;flex-direction:column;align-items:center;gap:6px;font-weight:700;font-size:13px;line-height:1.2;transition:transform .15s}
+.scale button:hover{transform:translateY(-2px);border-color:var(--sage-l)}
+.scale svg{width:44px;height:44px}
+.done-pic{width:150px;height:150px;margin:0 auto 6px}
+.done-pic svg,.done-pic img{width:100%;height:100%;object-fit:contain}
+.compare{display:flex;align-items:center;justify-content:center;gap:14px;margin:4px 0 22px;flex-wrap:wrap}
+.chip{display:flex;flex-direction:column;align-items:center;gap:4px;background:#F6F3EF;border-radius:18px;padding:10px 16px;min-width:108px}
+.chip small{color:var(--muted);font-weight:700}
+.chip svg{width:40px;height:40px}
+.chip b{font-size:14px}
+.arrow{font-size:26px;color:var(--muted)}
+.settings-list{display:grid;gap:16px;text-align:left;margin:14px 0 22px}
+.set-row{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.set-row label{font-weight:700}
+.stepper{display:inline-flex;align-items:center;gap:6px;background:#F6F3EF;border-radius:999px;padding:4px}
+.stepper button{width:36px;height:36px;border-radius:50%;border:none;background:#fff;font-weight:800;font-size:18px}
+.stepper output{min-width:3.2em;text-align:center;font-weight:800}
+
+@media (max-width:600px){
+  #camBox{width:104px;left:12px;bottom:auto;top:calc(68px + env(safe-area-inset-top))}
+  .speech{right:-2%}
+  #stage{width:min(84vw,calc(100dvh - 360px))}
+  .topbar{gap:6px;padding:10px 12px}
+  .icon-btn{width:38px;height:38px}
+  .icon-btn svg{width:19px;height:19px}
+  .dots{gap:5px}
+  .dots i{width:8px;height:8px}
+}
+@media (prefers-reduced-motion:reduce){
+  .tile,.start{transition:none}
+}
+</style>
+</head>
+<body>
+<canvas id="bg"></canvas>
+
+<!-- ============ HOME ============ -->
+<section id="home" class="screen">
+  <div class="home-card">
+    <div class="home-head">
+      <div class="brand">
+        <h1 data-t="appName"></h1>
+        <p id="tagline"></p>
+      </div>
+      <button class="lang-btn" id="langBtn" type="button"></button>
+    </div>
+
+    <div class="section">
+      <h2 data-t="pickChar"></h2>
+      <div class="tiles" id="tiles"></div>
+      <div class="custom-panel" id="customPanel" hidden>
+        <div class="row">
+          <label for="customName" data-t="charName"></label>
+          <input class="text-in" id="customName" maxlength="12" autocomplete="off">
+        </div>
+        <div class="row" style="justify-content:space-between">
+          <label class="switch"><input type="checkbox" id="removeBg"><span data-t="removeBg"></span></label>
+          <button class="btn" type="button" id="changeImg" data-t="change"></button>
+        </div>
+        <p class="hint" data-t="uploadHint"></p>
+      </div>
+      <input type="file" id="fileIn" accept="image/*" hidden>
+    </div>
+
+    <div class="section">
+      <h2 data-t="modeTitle"></h2>
+      <div class="modes">
+        <button class="mode" type="button" data-mode="guided"><b data-t="guided"></b><span data-t="guidedDesc"></span></button>
+        <button class="mode" type="button" data-mode="free"><b data-t="free"></b><span data-t="freeDesc"></span></button>
+      </div>
+      <div class="row" id="freeDetRow" style="margin-top:12px" hidden>
+        <label data-t="freeDetTitle"></label>
+        <div class="seg" id="freeDetSeg">
+          <button type="button" data-fdet="hand" data-t="fdHand"></button>
+          <button type="button" data-fdet="face" data-t="fdFace"></button>
+          <button type="button" data-fdet="shrug" data-t="fdShrug"></button>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2 data-t="soundTitle"></h2>
+      <div class="row" style="gap:18px">
+        <div class="seg" id="soundSeg">
+          <button type="button" data-sound="wind" data-t="wind"></button>
+          <button type="button" data-sound="music" data-t="music"></button>
+          <button type="button" data-sound="off" data-t="mute"></button>
+        </div>
+        <label class="switch"><input type="checkbox" id="voiceOn"><span data-t="voice"></span></label>
+        <button class="btn" type="button" id="homeSettings" data-t="settings"></button>
+      </div>
+    </div>
+
+    <div class="start-wrap">
+      <button class="start" id="startBtn" type="button" data-t="start"></button>
+      <p class="hint" data-t="howto" style="text-align:center"></p>
+      <div class="privacy">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+        <span data-t="privacy"></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ LOADING ============ -->
+<section id="loading" class="screen fixed center-screen" hidden>
+  <div>
+    <div class="spinner"></div>
+    <h2 style="margin:0 0 6px" data-t="loading"></h2>
+    <p class="hint" data-t="loadingSub"></p>
+  </div>
+</section>
+
+<!-- ============ ERROR ============ -->
+<section id="error" class="screen fixed center-screen" hidden>
+  <div class="msg-card">
+    <h2 id="errTitle"></h2>
+    <p id="errMsg"></p>
+    <div class="btn-row">
+      <button class="btn" type="button" id="errBack" data-t="back"></button>
+      <button class="btn primary" type="button" id="errRetry" data-t="retry"></button>
+    </div>
+  </div>
+</section>
+
+<!-- ============ RUN ============ -->
+<section id="run" class="screen fixed" hidden>
+  <div class="topbar">
+    <button class="icon-btn" id="exitBtn" type="button" data-label="home">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+    </button>
+    <div class="dots" id="dots"></div>
+    <div class="spacer" id="spacer" hidden></div>
+    <button class="icon-btn" id="pauseBtn" type="button" data-label="pause">
+      <svg id="pauseIco" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="5" width="4" height="14" rx="1.5"/><rect x="14" y="5" width="4" height="14" rx="1.5"/></svg>
+    </button>
+    <button class="icon-btn" id="skipBtn" type="button" data-label="skipStep">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 5l9 7-9 7z" fill="currentColor"/><path d="M19 5v14"/></svg>
+    </button>
+    <button class="icon-btn" id="muteBtn" type="button" data-label="mute">
+      <svg id="muteIco" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"></svg>
+    </button>
+    <button class="icon-btn" id="runSettings" type="button" data-label="settings">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+    </button>
+  </div>
+
+  <div class="stage-area">
+    <div id="stage">
+      <svg id="ring" viewBox="0 0 100 100"><circle class="track" cx="50" cy="50" r="46"/><circle class="val" id="ringVal" cx="50" cy="50" r="46"/></svg>
+      <svg id="sparks" viewBox="0 0 100 100"></svg>
+      <div id="charWrap"></div>
+      <div id="bubbleLayer"></div>
+      <div class="speech" id="speech"></div>
+      <div class="hand-pill" id="handPill">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 11V6a2 2 0 0 0-4 0v5"/><path d="M14 10V4a2 2 0 0 0-4 0v6"/><path d="M10 10.5V6a2 2 0 0 0-4 0v8"/><path d="M18 8a2 2 0 1 1 4 0v6a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-5.99-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L7 15"/></svg>
+        <span id="handPillText"></span>
+      </div>
+      <div class="pause-veil" id="pauseVeil" hidden><span data-t="paused"></span></div>
+    </div>
+  </div>
+
+  <div class="card-area">
+    <div id="card">
+      <div class="step-row"><div class="step-label" id="stepLabel"></div><span class="det-chip" id="detChip" hidden></span></div>
+      <p id="mainText"></p>
+      <div class="status"><span id="statusText"></span><span id="countNum"></span></div>
+    </div>
+  </div>
+
+  <div id="camBox"><canvas id="camCanvas" width="160" height="120"></canvas><span class="dot" id="camDot"></span></div>
+</section>
+
+<!-- ============ RATING ============ -->
+<section id="rate" class="overlay" hidden>
+  <div class="sheet">
+    <h2 id="rateTitle"></h2>
+    <p data-t="rateSub"></p>
+    <div class="scale" id="scale"></div>
+    <button class="btn" type="button" id="rateSkip" data-t="skip"></button>
+  </div>
+</section>
+
+<!-- ============ DONE ============ -->
+<section id="done" class="overlay" hidden>
+  <div class="sheet">
+    <div class="done-pic" id="donePic"></div>
+    <h2 data-t="doneTitle"></h2>
+    <p id="doneSub"></p>
+    <div class="compare" id="compare"></div>
+    <div class="btn-row">
+      <button class="btn" type="button" id="doneHome" data-t="home"></button>
+      <button class="btn" type="button" id="doneFree" data-t="toFree"></button>
+      <button class="btn primary" type="button" id="doneAgain" data-t="again"></button>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SETTINGS ============ -->
+<section id="settings" class="overlay" hidden>
+  <div class="sheet">
+    <h2 data-t="settings"></h2>
+    <div class="settings-list">
+      <div class="set-row"><label data-t="tenseSec"></label>
+        <span class="stepper"><button type="button" data-step="tenseSec" data-d="-1">−</button><output id="o_tenseSec"></output><button type="button" data-step="tenseSec" data-d="1">+</button></span></div>
+      <div class="set-row"><label data-t="relaxSec"></label>
+        <span class="stepper"><button type="button" data-step="relaxSec" data-d="-1">−</button><output id="o_relaxSec"></output><button type="button" data-step="relaxSec" data-d="1">+</button></span></div>
+      <div class="set-row"><label data-t="sens"></label>
+        <div class="seg" id="sensSeg">
+          <button type="button" data-sens="strict" data-t="sensLow"></button>
+          <button type="button" data-sens="normal" data-t="sensMid"></button>
+          <button type="button" data-sens="easy" data-t="sensHigh"></button>
+        </div></div>
+      <div class="set-row"><label class="switch"><input type="checkbox" id="autoDet"><span data-t="autoDet"></span></label></div>
+      <div class="set-row"><label class="switch"><input type="checkbox" id="showCam"><span data-t="showCam"></span></label></div>
+    </div>
+    <button class="btn primary" type="button" id="settingsClose" data-t="close"></button>
+  </div>
+</section>
+
+<video id="video" playsinline muted autoplay style="position:fixed;width:1px;height:1px;opacity:0;pointer-events:none;left:-10px;top:-10px"></video>
+
+<script type="module">
+/* =====================================================================
+   放鬆小夥伴 Relax Buddy — progressive muscle relaxation with a webcam.
+   Make a fist = tense; open your hand = relax. Hand tracking runs on
+   the device with MediaPipe Hand Landmarker; no video leaves the device.
+   All wording lives in STR and STEPS below — edit freely.
+   ===================================================================== */
+
+const MP_VER = '0.10.21';
+const MP_BASE = `https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@${MP_VER}`;
+const params = new URLSearchParams(location.search);
+const DEMO = params.has('demo');           // ?demo  → no camera; hold Space / mouse to tense (for testing)
+
+/* ---------------- Text ---------------- */
+const STR = {
+  zh: {
+    appName:'放鬆小夥伴', tagline:'<span><b>握緊拳頭</b> → 收緊</span><span><i>張開手掌</i> → 放鬆</span>',
+    pickChar:'1. 揀選你的角色', upload:'上載圖片', change:'更換圖片', charName:'角色名稱',
+    removeBg:'去除白色背景', uploadHint:'可以上載你喜愛的卡通角色圖片。圖片只會保存在這部裝置，不會上載。',
+    modeTitle:'2. 練習模式', guided:'引導練習', guidedDesc:'和角色一起，逐個身體部位收緊、放鬆（約 3 分鐘）。鏡頭會按部位看手、臉、肩膀或手臂。',
+    free:'自由模式', freeDesc:'隨時收緊、放鬆，看看角色怎樣變化。可選用握拳、皺臉或聳肩。',
+    soundTitle:'3. 聲音', wind:'風聲', music:'音樂', mute:'靜音', voice:'語音提示', settings:'設定',
+    start:'開始', howto:'坐好，讓鏡頭看到你的頭、肩膀和手。握拳時手掌向着鏡頭。',
+    privacy:'鏡頭畫面只會在這部裝置上即時處理，不會上載或儲存。',
+    loading:'正在準備鏡頭和手部偵測…', loadingSub:'第一次開啟可能需要十多秒',
+    errCam:'未能開啟鏡頭', errCamMsg:'請允許瀏覽器使用鏡頭，然後再試一次。如果是直接打開 HTML 檔案，請改用 https 網址開啟（例如放上 Vercel）。',
+    errNoCam:'找不到鏡頭', errNoCamMsg:'這部裝置似乎沒有鏡頭，或者鏡頭正被其他程式使用。',
+    errModel:'未能載入手部偵測', errModelMsg:'請檢查網絡連線，然後再試一次。',
+    retry:'再試一次', back:'返回', home:'主頁',
+    rateBefore:'開始前，你覺得身體有多緊張？', rateAfter:'完成了！現在你覺得身體有多緊張？', rateSub:'揀一個最接近你感覺的', skip:'跳過',
+    rates:['很放鬆','放鬆','一般','有點緊張','很緊張'],
+    step:'第 {i} / {n} 步　{title}',
+    hold:'保持收緊…', relaxing:'感受放鬆的感覺',
+    holdSay:'保持！', releaseSay:'放鬆。',
+    tenseLines:['好用力呀！','{name}也在用力！','收緊！收緊！'],
+    relaxLines:['好舒服～','呼～','軟綿綿～','放鬆了～'],
+    doneTitle:'做得很好！', doneSub:'你和{name}完成了全部 {n} 個部位的練習。',
+    before:'開始前', after:'完成後', again:'再做一次', toFree:'自由模式',
+    freeTitle:'自由模式', freeStatus:'已完成放鬆 {n} 次',
+    freeDetTitle:'偵測方式', fdHand:'握拳', fdFace:'皺臉', fdShrug:'聳肩',
+    detName:{hand:'手部', face:'面部表情', shrug:'肩膀', arms:'手臂'}, watching:'鏡頭正在看：{d}',
+    loadingModel:'正在準備{d}偵測，請稍候…', calibrating:'校準中，保持自然…',
+    calibMain:{face:'先放鬆，自然地望着鏡頭，讓{name}認識你平常的樣子。', shrug:'先放鬆坐好，讓鏡頭看到你的頭和肩膀，保持自然。'},
+    autoDet:'按部位自動切換偵測（臉、肩膀、手臂）',
+    det:{
+      hand:{ready:'準備好，就握緊拳頭', keep:'再握緊一點！', release:'放鬆！慢慢張開手掌', show:'把手放在鏡頭前', free:'握緊拳頭，{name}會一起收緊；慢慢張開手，{name}就會放鬆。', start:'試試握緊拳頭'},
+      face:{ready:'準備好，就皺起整張臉', keep:'再皺緊一點！', release:'放鬆！讓臉慢慢變回平滑', show:'把臉對着鏡頭', free:'皺起整張臉，{name}會一起收緊；放鬆面部，{name}就會放鬆。', start:'試試皺起整張臉'},
+      shrug:{ready:'準備好，就把肩膀聳高', keep:'肩膀再聳高一點！', release:'放鬆！肩膀慢慢放下來', show:'讓鏡頭看到你的頭和肩膀', free:'把肩膀聳高，{name}會一起收緊；肩膀放下，{name}就會放鬆。', start:'試試把肩膀聳高'},
+      arms:{ready:'準備好，就屈起雙臂舉高', keep:'手臂再屈高一點！', release:'放鬆！手臂慢慢放下來', show:'坐後一點，讓鏡頭看到你的頭和肩膀', free:'屈起雙臂舉高，{name}會一起收緊；放下手臂，{name}就會放鬆。', start:'試試屈起雙臂'}
+    },
+    tenseSec:'收緊秒數', relaxSec:'放鬆秒數', sens:'偵測靈敏度', sensLow:'要很用力', sensMid:'標準', sensHigh:'輕輕做也可以',
+    showCam:'顯示鏡頭小畫面', tipSens:'沒有反應？可以在「設定」調校偵測靈敏度', close:'完成', paused:'已暫停', pause:'暫停', resume:'繼續', skipStep:'下一步', sec:'{n} 秒',
+    myBuddy:'我的角色', langBtn:'EN'
+  },
+  en: {
+    appName:'Relax Buddy', tagline:'<span><b>Make a fist</b> → tense</span><span><i>Open your hand</i> → relax</span>',
+    pickChar:'1. Choose your buddy', upload:'Upload picture', change:'Change picture', charName:'Buddy’s name',
+    removeBg:'Remove white background', uploadHint:'Upload a picture of your favourite cartoon character. It is saved on this device only and never uploaded.',
+    modeTitle:'2. Choose a mode', guided:'Guided practice', guidedDesc:'Tense and relax one body part at a time with your buddy (about 3 minutes). The camera watches your hands, face, shoulders or arms as needed.',
+    free:'Free play', freeDesc:'Tense and relax any time and watch your buddy respond. Choose fist, scrunched face or shrug.',
+    soundTitle:'3. Sound', wind:'Wind', music:'Music', mute:'Off', voice:'Spoken prompts', settings:'Settings',
+    start:'Start', howto:'Sit so the camera can see your head, shoulders and hands. Show your palm when making a fist.',
+    privacy:'The camera picture is processed live on this device only. Nothing is uploaded or saved.',
+    loading:'Getting the camera and hand tracking ready…', loadingSub:'The first time can take 10–20 seconds',
+    errCam:'Couldn’t start the camera', errCamMsg:'Please allow camera access and try again. If you opened the HTML file directly, open it from an https address instead (for example on Vercel).',
+    errNoCam:'No camera found', errNoCamMsg:'This device doesn’t seem to have a camera, or another app is using it.',
+    errModel:'Couldn’t load hand tracking', errModelMsg:'Please check the internet connection and try again.',
+    retry:'Try again', back:'Back', home:'Home',
+    rateBefore:'Before we start, how tense does your body feel?', rateAfter:'All done! How tense does your body feel now?', rateSub:'Pick the one closest to how you feel', skip:'Skip',
+    rates:['Very relaxed','Relaxed','Okay','A bit tense','Very tense'],
+    step:'Step {i} of {n} · {title}',
+    hold:'Hold it…', relaxing:'Notice the relaxed feeling',
+    holdSay:'Hold it!', releaseSay:'Relax.',
+    tenseLines:['So tight!','{name} is squeezing too!','Squeeze!'],
+    relaxLines:['Ahh, nice~','Phew~','All floppy~','So relaxed~'],
+    doneTitle:'Great job!', doneSub:'You and {name} relaxed all {n} body parts.',
+    before:'Before', after:'After', again:'Do it again', toFree:'Free play',
+    freeTitle:'Free play', freeStatus:'Relaxed {n} times',
+    freeDetTitle:'Detect', fdHand:'Fist', fdFace:'Scrunched face', fdShrug:'Shrug',
+    detName:{hand:'hands', face:'face', shrug:'shoulders', arms:'arms'}, watching:'Camera is watching: {d}',
+    loadingModel:'Getting {d} tracking ready…', calibrating:'Measuring your normal — stay relaxed…',
+    calibMain:{face:'First, relax and look at the camera so {name} can learn your normal face.', shrug:'First, sit comfortably so the camera can see your head and shoulders. Stay relaxed.'},
+    autoDet:'Switch detection by body part (face, shoulders, arms)',
+    det:{
+      hand:{ready:'When you’re ready, make a fist', keep:'Squeeze a little harder!', release:'Relax! Slowly open your hand', show:'Show your hand to the camera', free:'Make a fist and {name} tenses up with you. Slowly open your hand and {name} relaxes.', start:'Try making a fist'},
+      face:{ready:'When you’re ready, scrunch up your face', keep:'Scrunch a little more!', release:'Relax! Let your face go smooth', show:'Face the camera', free:'Scrunch up your face and {name} tenses up with you. Relax your face and {name} relaxes.', start:'Try scrunching up your face'},
+      shrug:{ready:'When you’re ready, lift your shoulders up', keep:'Shoulders a little higher!', release:'Relax! Let your shoulders drop', show:'Let the camera see your head and shoulders', free:'Lift your shoulders and {name} tenses up with you. Drop them and {name} relaxes.', start:'Try lifting your shoulders'},
+      arms:{ready:'When you’re ready, bend your arms up', keep:'Bend your arms up a little more!', release:'Relax! Let your arms drop', show:'Sit back so the camera can see your head and shoulders', free:'Bend your arms up and {name} tenses up with you. Drop them and {name} relaxes.', start:'Try bending your arms up'}
+    },
+    tenseSec:'Tense time', relaxSec:'Relax time', sens:'Detection sensitivity', sensLow:'Strong effort', sensMid:'Normal', sensHigh:'Light effort',
+    showCam:'Show small camera view', tipSens:'Not responding? Try changing the detection sensitivity in Settings', close:'Done', paused:'Paused', pause:'Pause', resume:'Resume', skipStep:'Next step', sec:'{n}s',
+    myBuddy:'My buddy', langBtn:'中'
+  }
+};
+
+const STEPS = [
+  { det:'hand', zh:{title:'雙手', tense:'用力握緊拳頭，好像要把檸檬汁擠出來！', relax:'慢慢張開手，讓檸檬掉下來。感受手指變得軟軟、暖暖的。'},
+    en:{title:'Hands', tense:'Squeeze your fists tight, like squeezing all the juice out of a lemon!', relax:'Slowly open your hands and drop the lemon. Notice how soft and warm your fingers feel.'} },
+  { det:'arms',
+    zh:{title:'手臂', tense:'握緊拳頭，把雙臂屈起舉高，好像大力士展示肌肉！', tenseFist:'握緊拳頭，再屈起手臂，好像大力士展示肌肉！', relax:'放下手臂，讓它們像煮熟的麵條一樣軟下來。'},
+    en:{title:'Arms', tense:'Make fists and bend your arms up high, like a strongman showing off muscles!', tenseFist:'Make fists and bend your arms up, like a strongman showing off muscles!', relax:'Let your arms drop, floppy like cooked noodles.'} },
+  { det:'shrug',
+    zh:{title:'肩膀', tense:'把肩膀聳高，貼近耳朵，好像小烏龜縮進殼裏。', tenseFist:'握緊拳頭，同時把肩膀聳高貼近耳朵，好像小烏龜縮進殼裏。', relax:'肩膀慢慢放下來，小烏龜探出頭來曬太陽。'},
+    en:{title:'Shoulders', tense:'Lift your shoulders up to your ears, like a turtle hiding in its shell.', tenseFist:'Make fists and lift your shoulders up to your ears, like a turtle hiding in its shell.', relax:'Let your shoulders drop. The turtle peeks out to enjoy the sunshine.'} },
+  { det:'face',
+    zh:{title:'臉', tense:'皺起整張臉：皺眉、瞇眼、皺起鼻子，好像吃了一顆超級酸的糖！', tenseFist:'握緊拳頭，同時皺起整張臉，好像吃了一顆超級酸的糖！', relax:'放鬆額頭、眼睛和嘴巴，讓臉變得平平滑滑。'},
+    en:{title:'Face', tense:'Scrunch up your whole face: frown, squint and wrinkle your nose, like you just ate a super sour sweet!', tenseFist:'Make fists and scrunch up your whole face, like you just ate a super sour sweet!', relax:'Let your forehead, eyes and mouth go smooth and soft.'} },
+  { det:'hand', zh:{title:'肚子', tense:'握緊拳頭，同時收緊肚子，讓它變得硬硬的，好像要擋住一個飛來的皮球。', relax:'肚子放鬆。慢慢吸一口氣，讓肚子像氣球一樣脹起來，再慢慢呼出。'},
+    en:{title:'Tummy', tense:'Make fists and make your tummy hard and tight, like a ball is about to bounce off it.', relax:'Let your tummy go soft. Breathe in slowly so it fills like a balloon, then breathe out.'} },
+  { det:'hand', zh:{title:'雙腿和腳', tense:'握緊拳頭，同時把腳趾向下捲，雙腳用力踩着地面。', relax:'腳趾放鬆，感受雙腳變得重重的、暖暖的。'},
+    en:{title:'Legs & feet', tense:'Make fists, curl your toes down and press your feet hard into the floor.', relax:'Let your toes relax. Notice your legs feeling heavy and warm.'} },
+  { det:'hand', zh:{title:'全身', tense:'最後一次！全身一起收緊：拳頭、手臂、肩膀、臉、肚子和雙腳！', relax:'全身放鬆，好像一杯雪糕在太陽下慢慢融化。'},
+    en:{title:'Whole body', tense:'Last one! Tighten everything together: fists, arms, shoulders, face, tummy and feet!', relax:'Let your whole body melt, like ice cream slowly melting in the sun.'} },
+];
+
+/* ---------------- Built-in original characters ---------------- */
+const CHARS = {
+  puff: { name:{zh:'小雲',en:'Puff'}, color:'#D8E8F5', face:[100,124], cheek:36,
+    body:'<circle cx="60" cy="118" r="38"/><circle cx="100" cy="90" r="50"/><circle cx="142" cy="114" r="40"/><rect x="34" y="110" width="134" height="58" rx="29"/>', extra:'' },
+  mochi:{ name:{zh:'糰糰',en:'Mochi'}, color:'#F6D0D7', face:[100,122], cheek:40,
+    body:'<path d="M100 46 C152 46 180 94 180 132 C180 164 150 176 100 176 C50 176 20 164 20 132 C20 94 48 46 100 46Z"/>',
+    extra:'<path d="M100 48 C99 38 101 30 106 22" stroke="#6FA56A" stroke-width="4" fill="none" stroke-linecap="round"/><ellipse cx="93" cy="27" rx="11" ry="5.5" transform="rotate(-25 93 27)" fill="#8CC486"/><ellipse cx="117" cy="21" rx="12" ry="6" transform="rotate(20 117 21)" fill="#8CC486"/>' },
+  drip: { name:{zh:'水滴',en:'Drip'}, color:'#A8D5EB', face:[100,134], cheek:32,
+    body:'<path d="M100 20 C120 56 162 92 162 130 C162 164 134 184 100 184 C66 184 38 164 38 130 C38 92 80 56 100 20Z"/>',
+    extra:'<ellipse cx="68" cy="114" rx="7" ry="15" fill="#fff" opacity=".55" transform="rotate(22 68 114)"/>' },
+};
+const WARM = '#F4A28C';
+const INK = '#3A3F4B';
+
+function charSVG(id, uid){
+  const c = CHARS[id]; const [fx,fy] = c.face; const k = c.cheek;
+  return `<svg viewBox="0 0 200 200" aria-hidden="true">
+  <ellipse cx="100" cy="192" rx="54" ry="6" fill="#000" opacity=".07"/>
+  <g class="bodyfill" fill="${c.color}">${c.body}</g>${c.extra}
+  <g transform="translate(${fx} ${fy})">
+    <ellipse class="cheek" cx="${-k}" cy="12" rx="10" ry="6" fill="#F08C8C" opacity=".35"/>
+    <ellipse class="cheek" cx="${k}" cy="12" rx="10" ry="6" fill="#F08C8C" opacity=".35"/>
+    <g class="f-open"><ellipse cx="-22" cy="0" rx="6.5" ry="8.5" fill="${INK}"/><ellipse cx="22" cy="0" rx="6.5" ry="8.5" fill="${INK}"/><circle cx="-19.5" cy="-3" r="2.3" fill="#fff"/><circle cx="24.5" cy="-3" r="2.3" fill="#fff"/></g>
+    <g class="f-happy" stroke="${INK}" stroke-width="4" stroke-linecap="round" fill="none" opacity="0"><path d="M-30 2 Q-22 -7 -14 2"/><path d="M14 2 Q22 -7 30 2"/></g>
+    <g class="f-squeeze" stroke="${INK}" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity="0"><path d="M-31 -7 L-17 0 L-31 7"/><path d="M31 -7 L17 0 L31 7"/><path d="M-33 -19 L-15 -13"/><path d="M33 -19 L15 -13"/></g>
+    <g class="m-smile" stroke="${INK}" stroke-width="4" stroke-linecap="round" fill="none"><path d="M-10 15 Q0 24 10 15"/></g>
+    <g class="m-tense" stroke="${INK}" stroke-width="3.6" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity="0"><path d="M-14 18 L-7 13 L0 18 L7 13 L14 18"/></g>
+    <path class="sweat" d="M54 -34 C58 -26 62 -22 62 -16 C62 -11 58 -8 54 -8 C50 -8 46 -11 46 -16 C46 -22 50 -26 54 -34Z" fill="#9FD3F0" opacity="0"/>
+  </g></svg>`;
+}
+
+/* ---------------- State & storage ---------------- */
+const KEY = 'relaxbuddy.v1';
+const S = Object.assign({
+  lang:'zh', charId:'puff', customImg:null, customName:'', removeBg:true,
+  mode:'guided', sound:'wind', voice:true, tenseSec:5, relaxSec:10, showCam:true, sens:'normal', autoDet:true, freeDet:'hand'
+}, load());
+function load(){ try{ return JSON.parse(localStorage.getItem(KEY)) || {}; }catch(e){ return {}; } }
+function save(){ try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){ /* storage full or blocked — keep working */ } }
+
+const $ = s => document.querySelector(s);
+const $$ = s => [...document.querySelectorAll(s)];
+const T = (k, vars={}) => { let s = STR[S.lang][k]; if (typeof s !== 'string') return s; for (const v in vars) s = s.replaceAll(`{${v}}`, vars[v]); return s; };
+const clamp = (x,a=0,b=1) => Math.max(a, Math.min(b, x));
+const lerp = (a,b,t) => a + (b-a)*t;
+const hex2rgb = h => [1,3,5].map(i => parseInt(h.slice(i,i+2),16));
+const mixHex = (a,b,t) => { const A=hex2rgb(a),B=hex2rgb(b); return `rgb(${A.map((v,i)=>Math.round(lerp(v,B[i],t))).join(',')})`; };
+const buddyName = () => S.charId === 'custom' ? (S.customName.trim() || T('myBuddy')) : CHARS[S.charId].name[S.lang];
+
+/* ---------------- Custom image handling ---------------- */
+let customProcessed = null;
+function loadImg(src){ return new Promise((res, rej) => { const im = new Image(); im.onload = () => res(im); im.onerror = rej; im.src = src; }); }
+async function fileToDataURL(file){
+  const url = URL.createObjectURL(file);
+  try{
+    const im = await loadImg(url);
+    const max = 520, sc = Math.min(1, max / Math.max(im.width, im.height));
+    const cv = document.createElement('canvas'); cv.width = Math.round(im.width*sc); cv.height = Math.round(im.height*sc);
+    cv.getContext('2d').drawImage(im, 0, 0, cv.width, cv.height);
+    return cv.toDataURL('image/png');
+  } finally { URL.revokeObjectURL(url); }
+}
+async function processCustom(){
+  if (!S.customImg){ customProcessed = null; return; }
+  if (!S.removeBg){ customProcessed = S.customImg; return; }
+  const im = await loadImg(S.customImg);
+  const cv = document.createElement('canvas'); cv.width = im.width; cv.height = im.height;
+  const ctx = cv.getContext('2d'); ctx.drawImage(im, 0, 0);
+  const W = cv.width, H = cv.height, d = ctx.getImageData(0,0,W,H), p = d.data;
+  // reference colour = average of the four corners (usually white / plain background)
+  const idx = (x,y) => (y*W + x)*4;
+  const corners = [idx(0,0), idx(W-1,0), idx(0,H-1), idx(W-1,H-1)].filter(i => p[i+3] > 200);
+  if (!corners.length){ customProcessed = S.customImg; return; }
+  const ref = [0,1,2].map(c => corners.reduce((s,i)=>s+p[i+c],0)/corners.length);
+  const tol = 52*52;
+  const near = i => { const a=p[i]-ref[0], b=p[i+1]-ref[1], c=p[i+2]-ref[2]; return p[i+3] > 0 && a*a+b*b+c*c < tol; };
+  const seen = new Uint8Array(W*H); const stack = [];
+  for (let x=0;x<W;x++){ stack.push(x, (H-1)*W + x); }
+  for (let y=0;y<H;y++){ stack.push(y*W, y*W + W-1); }
+  while (stack.length){
+    const n = stack.pop(); if (seen[n]) continue; seen[n] = 1;
+    const i = n*4; if (!near(i)) continue;
+    p[i+3] = 0;
+    const x = n % W, y = (n / W) | 0;
+    if (x>0) stack.push(n-1); if (x<W-1) stack.push(n+1); if (y>0) stack.push(n-W); if (y<H-1) stack.push(n+W);
+  }
+  // soften the cut edge a little
+  for (let y=1;y<H-1;y++) for (let x=1;x<W-1;x++){
+    const n=y*W+x, i=n*4; if (p[i+3]===0) continue;
+    if (p[i-4+3]===0 || p[i+4+3]===0 || p[i-W*4+3]===0 || p[i+W*4+3]===0) p[i+3] = Math.min(p[i+3], 150);
+  }
+  ctx.putImageData(d,0,0);
+  customProcessed = cv.toDataURL('image/png');
+}
+
+/* ---------------- Home screen ---------------- */
+function applyStatic(){
+  document.documentElement.lang = S.lang === 'zh' ? 'zh-HK' : 'en';
+  document.title = S.lang === 'zh' ? '放鬆小夥伴 Relax Buddy' : 'Relax Buddy 放鬆小夥伴';
+  $$('[data-t]').forEach(el => { el.textContent = T(el.dataset.t); });
+  $$('[data-label]').forEach(el => { el.setAttribute('aria-label', T(el.dataset.label)); el.title = T(el.dataset.label); });
+  $('#tagline').innerHTML = T('tagline');
+  $('#langBtn').textContent = T('langBtn');
+  $('#customName').placeholder = T('myBuddy');
+}
+function renderTiles(){
+  const tiles = $('#tiles'); tiles.innerHTML = '';
+  // custom / upload tile first — the heart of the tool
+  const up = document.createElement('button');
+  up.type = 'button'; up.className = 'tile' + (S.customImg ? '' : ' upload');
+  up.setAttribute('aria-pressed', S.charId === 'custom');
+  if (S.customImg){
+    up.innerHTML = `<div class="pic"><img alt=""></div><div class="nm"></div>`;
+    up.querySelector('img').src = customProcessed || S.customImg;
+    up.querySelector('.nm').textContent = S.customName.trim() || T('myBuddy');
+  } else {
+    up.innerHTML = `<div class="pic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></div><div class="nm">${T('upload')}</div>`;
+  }
+  up.onclick = () => { if (!S.customImg) $('#fileIn').click(); else { S.charId = 'custom'; save(); renderTiles(); } };
+  tiles.appendChild(up);
+  for (const id of Object.keys(CHARS)){
+    const b = document.createElement('button'); b.type='button'; b.className='tile';
+    b.setAttribute('aria-pressed', S.charId === id);
+    b.innerHTML = `<div class="pic">${charSVG(id)}</div><div class="nm">${CHARS[id].name[S.lang]}</div>`;
+    b.onclick = () => { S.charId = id; save(); renderTiles(); };
+    tiles.appendChild(b);
+  }
+  $('#customPanel').hidden = S.charId !== 'custom';
+  $('#customName').value = S.customName;
+  $('#removeBg').checked = S.removeBg;
+}
+function renderChoices(){
+  $$('.mode').forEach(b => b.setAttribute('aria-pressed', b.dataset.mode === S.mode));
+  $$('#soundSeg button').forEach(b => b.setAttribute('aria-pressed', b.dataset.sound === S.sound));
+  $$('#freeDetSeg button').forEach(b => b.setAttribute('aria-pressed', b.dataset.fdet === S.freeDet));
+  $('#freeDetRow').hidden = S.mode !== 'free';
+  $('#voiceOn').checked = S.voice;
+}
+function renderHome(){ applyStatic(); renderTiles(); renderChoices(); }
+
+$('#langBtn').onclick = () => { S.lang = S.lang === 'zh' ? 'en' : 'zh'; save(); renderHome(); };
+$('#fileIn').onchange = async e => {
+  const f = e.target.files[0]; if (!f) return;
+  try{
+    S.customImg = await fileToDataURL(f); S.charId = 'custom';
+    await processCustom(); save(); renderTiles();
+    if (!S.customName) $('#customName').focus();
+  }catch(err){ console.error(err); }
+  e.target.value = '';
+};
+$('#changeImg').onclick = () => $('#fileIn').click();
+$('#customName').oninput = e => { S.customName = e.target.value; save(); const nm = $('#tiles .tile .nm'); if (nm && S.customImg) nm.textContent = S.customName.trim() || T('myBuddy'); };
+$('#removeBg').onchange = async e => { S.removeBg = e.target.checked; save(); await processCustom(); renderTiles(); };
+$$('.mode').forEach(b => b.onclick = () => { S.mode = b.dataset.mode; save(); renderChoices(); });
+$$('#soundSeg button').forEach(b => b.onclick = () => { S.sound = b.dataset.sound; save(); renderChoices(); });
+$('#voiceOn').onchange = e => { S.voice = e.target.checked; save(); };
+$$('#freeDetSeg button').forEach(b => b.onclick = () => { S.freeDet = b.dataset.fdet; save(); renderChoices(); });
+
+/* ---------------- Settings ---------------- */
+const LIMITS = { tenseSec:[3,10], relaxSec:[5,20] };
+function renderSettings(){
+  $('#o_tenseSec').textContent = T('sec',{n:S.tenseSec});
+  $('#o_relaxSec').textContent = T('sec',{n:S.relaxSec});
+  $$('#sensSeg button').forEach(b => b.setAttribute('aria-pressed', b.dataset.sens === S.sens));
+  $('#showCam').checked = S.showCam;
+  $('#autoDet').checked = S.autoDet;
+}
+function openSettings(){ renderSettings(); $('#settings').hidden = false; if (G) G.pausedBySettings = true; }
+$('#homeSettings').onclick = openSettings;
+$('#runSettings').onclick = openSettings;
+$('#settingsClose').onclick = () => { $('#settings').hidden = true; if (G) G.pausedBySettings = false; };
+$$('[data-step]').forEach(b => b.onclick = () => { const k=b.dataset.step, [lo,hi]=LIMITS[k]; S[k]=clamp(S[k]+(+b.dataset.d),lo,hi); save(); renderSettings(); });
+$$('#sensSeg button').forEach(b => b.onclick = () => { S.sens = b.dataset.sens; save(); renderSettings(); });
+$('#autoDet').onchange = e => { S.autoDet = e.target.checked; save(); };
+$('#showCam').onchange = e => { S.showCam = e.target.checked; save(); $('#camBox').hidden = !S.showCam || DEMO; };
+
+/* ---------------- Sound (Web Audio, no files) ---------------- */
+class Sound{
+  constructor(){ this.ctx=null; this.nodes=[]; this.mode='off'; this.t=0; this.bellTimer=null; }
+  ensure(){
+    if (!this.ctx){ const AC = window.AudioContext || window.webkitAudioContext; if (!AC) return false;
+      this.ctx = new AC(); this.master = this.ctx.createGain(); this.master.gain.value = 0.75; this.master.connect(this.ctx.destination); }
+    if (this.ctx.state === 'suspended') this.ctx.resume();
+    return true;
+  }
+  clear(){ this.nodes.forEach(n => { try{ n.stop && n.stop(); }catch(e){} try{ n.disconnect(); }catch(e){} }); this.nodes=[]; clearInterval(this.bellTimer); this.bellTimer=null; this.bus=null; }
+  setMode(mode){
+    this.mode = mode; if (!this.ensure()) return; this.clear();
+    const c = this.ctx, now = c.currentTime;
+    if (mode === 'wind'){
+      const len = c.sampleRate*3, buf = c.createBuffer(1, len, c.sampleRate), d = buf.getChannelData(0);
+      let last = 0; for (let i=0;i<len;i++){ const w = Math.random()*2-1; last = (last + 0.02*w)/1.02; d[i] = last*3.5 + w*0.15; }
+      const src = c.createBufferSource(); src.buffer = buf; src.loop = true;
+      const bp = c.createBiquadFilter(); bp.type='bandpass'; bp.Q.value=0.8; bp.frequency.value=380;
+      const g = c.createGain(); g.gain.value = 0.25;
+      const lfo = c.createOscillator(), lg = c.createGain(); lfo.frequency.value = 0.11; lg.gain.value = 0.08; lfo.connect(lg).connect(g.gain);
+      src.connect(bp).connect(g).connect(this.master); src.start(); lfo.start();
+      this.wind = {bp, g}; this.nodes.push(src, bp, g, lfo, lg);
+    } else if (mode === 'music'){
+      const lp = c.createBiquadFilter(); lp.type='lowpass'; lp.frequency.value = 900; lp.Q.value = 0.5;
+      const trem = c.createGain(); trem.gain.value = 1;
+      const tl = c.createOscillator(), tg = c.createGain(); tl.frequency.value = 5.5; tg.gain.value = 0; tl.connect(tg).connect(trem.gain); tl.start();
+      const out = c.createGain(); out.gain.value = 0.0; out.gain.linearRampToValueAtTime(0.55, now + 2);
+      lp.connect(trem).connect(out).connect(this.master);
+      const det = [];
+      for (const f of [130.81, 196.00, 293.66, 329.63]){
+        const o1 = c.createOscillator(); o1.type='triangle'; o1.frequency.value=f;
+        const o2 = c.createOscillator(); o2.type='sine'; o2.frequency.value=f*2;
+        const g = c.createGain(); g.gain.value = 0.055;
+        o1.connect(g); o2.connect(g); g.connect(lp); o1.start(); o2.start();
+        det.push(o2); this.nodes.push(o1,o2,g);
+      }
+      this.music = {lp, tg, det}; this.bus = out; this.nodes.push(lp, trem, tl, tg, out);
+      const scale = [523.25, 587.33, 659.25, 783.99, 880.00, 1046.5];
+      this.bellTimer = setInterval(() => { if (this.t < 0.3 && Math.random() < 0.7) this.bell(scale[(Math.random()*scale.length)|0], 0.05); }, 2200);
+    }
+  }
+  setTension(t){
+    this.t = t; if (!this.ctx) return; const now = this.ctx.currentTime;
+    if (this.mode === 'wind' && this.wind){
+      this.wind.bp.frequency.setTargetAtTime(380 + 1700*t, now, 0.12);
+      this.wind.g.gain.setTargetAtTime(0.22 + 0.9*t, now, 0.15);
+    } else if (this.mode === 'music' && this.music){
+      this.music.lp.frequency.setTargetAtTime(800 + 2600*t, now, 0.15);
+      this.music.tg.gain.setTargetAtTime(0.45*t, now, 0.15);
+      this.music.det.forEach(o => o.detune.setTargetAtTime(28*t, now, 0.2));
+    }
+  }
+  bell(freq, vol=0.08){
+    if (!this.ctx || this.mode === 'off') return;
+    const c=this.ctx, now=c.currentTime, o=c.createOscillator(), g=c.createGain();
+    o.type='sine'; o.frequency.value=freq; g.gain.setValueAtTime(0,now); g.gain.linearRampToValueAtTime(vol,now+0.02); g.gain.exponentialRampToValueAtTime(0.0001,now+2.4);
+    o.connect(g).connect(this.master); o.start(now); o.stop(now+2.5);
+  }
+  chime(){ this.bell(659.25, 0.09); setTimeout(() => this.bell(987.77, 0.07), 180); }
+  stop(){ this.clear(); }
+}
+const sound = new Sound();
+
+/* ---------------- Voice prompts (speechSynthesis) ---------------- */
+let voices = [];
+function pickVoices(){ try{ voices = speechSynthesis.getVoices(); }catch(e){ voices = []; } }
+if ('speechSynthesis' in window){ pickVoices(); speechSynthesis.onvoiceschanged = pickVoices; }
+function speak(text){
+  if (!S.voice || !('speechSynthesis' in window) || !text) return;
+  try{
+    speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    if (S.lang === 'zh'){
+      u.lang = 'zh-HK';
+      u.voice = voices.find(v => /zh[-_]HK|yue/i.test(v.lang)) || voices.find(v => /zh[-_](TW|Hant)/i.test(v.lang)) || voices.find(v => /^zh/i.test(v.lang)) || null;
+    } else {
+      u.lang = 'en-GB';
+      u.voice = voices.find(v => /en[-_]GB/i.test(v.lang)) || voices.find(v => /^en/i.test(v.lang)) || null;
+    }
+    u.rate = 0.9; u.pitch = 1.05;
+    speechSynthesis.speak(u);
+  }catch(e){}
+}
+function hush(){ try{ speechSynthesis.cancel(); }catch(e){} }
+
+/* ---------------- Camera & detectors ---------------- */
+// Each guided step can use a different detector:
+//   hand  → fist (Hand Landmarker)          face  → scrunched face (Face Landmarker blendshapes)
+//   shrug → shoulders raised (Pose)          arms  → arms bent & raised (Pose)
+const video = $('#video');
+let stream = null, lastVideoTime = -1;
+const MG = 'https://storage.googleapis.com/mediapipe-models';
+const MODELS = {
+  hand: { cls:'HandLandmarker', url:`${MG}/hand_landmarker/hand_landmarker/float16/1/hand_landmarker.task`,
+          opts:{ numHands:2, minHandDetectionConfidence:0.5, minHandPresenceConfidence:0.5, minTrackingConfidence:0.5 } },
+  face: { cls:'FaceLandmarker', url:`${MG}/face_landmarker/face_landmarker/float16/1/face_landmarker.task`,
+          opts:{ numFaces:1, outputFaceBlendshapes:true } },
+  pose: { cls:'PoseLandmarker', url:`${MG}/pose_landmarker/pose_landmarker_lite/float16/1/pose_landmarker_lite.task`,
+          opts:{ numPoses:1 } },
+};
+const MODEL_OF = { hand:'hand', face:'face', shrug:'pose', arms:'pose' };
+const NEEDS_CALIB = { face:true, shrug:true };
+const mstate = { hand:{}, face:{}, pose:{} };
+let visionLib = null, fileset = null;
+async function vision(){
+  if (!visionLib){
+    const lib = await import(`${MP_BASE}/vision_bundle.mjs`);
+    fileset = await lib.FilesetResolver.forVisionTasks(`${MP_BASE}/wasm`);
+    visionLib = lib;
+  }
+  return visionLib;
+}
+function ensureModel(kind){
+  const st = mstate[kind];
+  if (st.ready) return Promise.resolve(st.lm);
+  if (st.promise) return st.promise;
+  st.failed = false;
+  st.promise = (async () => {
+    const lib = await vision(), M = MODELS[kind], C = lib[M.cls];
+    const opts = Object.assign({ baseOptions:{ modelAssetPath:M.url, delegate:'GPU' }, runningMode:'VIDEO' }, M.opts);
+    try{ st.lm = await C.createFromOptions(fileset, opts); }
+    catch(e){ opts.baseOptions.delegate = 'CPU'; st.lm = await C.createFromOptions(fileset, opts); }
+    st.ready = true; return st.lm;
+  })().catch(e => { st.failed = true; st.promise = null; throw e; });
+  return st.promise;
+}
+const modelReady = k => DEMO || !!mstate[MODEL_OF[k]].ready;
+const modelFailed = k => !DEMO && !!mstate[MODEL_OF[k]].failed;
+async function startCamera(){
+  if (stream) return;
+  stream = await navigator.mediaDevices.getUserMedia({ video:{ facingMode:'user', width:{ideal:640}, height:{ideal:480} }, audio:false });
+  video.srcObject = stream;
+  await new Promise(res => { if (video.readyState >= 2) res(); else video.onloadeddata = () => res(); });
+  try{ await video.play(); }catch(e){}
+}
+function stopCamera(){ if (stream){ stream.getTracks().forEach(t => t.stop()); stream = null; video.srcObject = null; } }
+
+// latest observations for the active detector
+let curDet = 'hand';
+const obs = { hands:[], face:null, faceLm:null, pose:null, poseW:null, seenAt:-1e9 };
+function setDet(k){
+  if (k === curDet) return;
+  curDet = k; obs.hands = []; obs.face = obs.faceLm = obs.pose = obs.poseW = null; obs.seenAt = -1e9; rawS = null;
+}
+function detect(now){
+  const st = mstate[MODEL_OF[curDet]];
+  if (!st.ready || !stream || video.readyState < 2) return;
+  if (video.currentTime === lastVideoTime) return;
+  lastVideoTime = video.currentTime;
+  try{
+    const r = st.lm.detectForVideo(video, now);
+    if (curDet === 'hand'){
+      obs.hands = r.landmarks || []; if (obs.hands.length) obs.seenAt = now;
+    } else if (curDet === 'face'){
+      const b = r.faceBlendshapes && r.faceBlendshapes[0];
+      obs.face = b ? Object.fromEntries(b.categories.map(c => [c.categoryName, c.score])) : null;
+      obs.faceLm = (r.faceLandmarks && r.faceLandmarks[0]) || null;
+      if (obs.face) obs.seenAt = now;
+    } else {
+      const L = r.landmarks && r.landmarks[0];
+      const ok = L && L[11].visibility > 0.5 && L[12].visibility > 0.5;
+      obs.pose = ok ? L : null; obs.poseW = ok ? r.worldLandmarks[0] : null;
+      if (ok) obs.seenAt = now;
+    }
+  }catch(e){ /* skip a frame */ }
+}
+const subjectOn = (now, ms=600) => DEMO || forced !== null || now - obs.seenAt < ms;
+const GAIN = { strict:0.8, normal:1, easy:1.35 };
+
+// HAND — curl of the four fingers: fingertip-to-wrist ÷ knuckle-to-wrist.
+// Checked on sample photos: open hands ≈ 1.64–1.80, fists ≈ 0.66–0.77.
+const FIST_RATIO = { strict:0.9, normal:1.05, easy:1.25 };
+function handTension(lm){
+  const w = video.videoWidth || 640, h = video.videoHeight || 480;
+  const P = i => [lm[i].x*w, lm[i].y*h, lm[i].z*w];
+  const dist = (a,b) => Math.hypot(a[0]-b[0], a[1]-b[1], a[2]-b[2]);
+  const wr = P(0); let sum = 0;
+  for (const [tip, mcp] of [[8,5],[12,9],[16,13],[20,17]]) sum += dist(P(tip), wr) / Math.max(1e-6, dist(P(mcp), wr));
+  const r = sum / 4, OPEN = 1.7, FIST = FIST_RATIO[S.sens] || 1.05;
+  return clamp((OPEN - r) / (OPEN - FIST));
+}
+// FACE — "scrunch score" from blendshapes (0…1): mostly frown + squint, a little pressed lips / nose.
+// Smiling also raises eyeSquint, so squint is discounted by the smile amount.
+// Checked on sample photos: neutral 0.01–0.15 (varies by person → calibration), smiles ≈ 0.03,
+// strong disgust/scrunch ≈ 0.4–0.65.
+function faceScore(){
+  const f = obs.face; if (!f) return null;
+  const a = k => ((f[k+'Left'] || 0) + (f[k+'Right'] || 0)) / 2;
+  return 0.45*a('browDown') + 0.35*Math.max(0, a('eyeSquint') - 0.4*a('mouthSmile')) + 0.1*a('mouthPress') + 0.1*a('noseSneer');
+}
+// SHOULDERS — vertical gap between shoulders and ears, in shoulder-widths. Shrugging makes it smaller.
+function shrugScore(){
+  const L = obs.pose; if (!L) return null;
+  const w = video.videoWidth || 640, h = video.videoHeight || 480;
+  const ears = [7,8].filter(i => L[i].visibility > 0.5);
+  if (!ears.length) return null;
+  const earY = ears.reduce((s,i) => s + L[i].y, 0) / ears.length;
+  const sw = Math.hypot((L[11].x-L[12].x)*w, (L[11].y-L[12].y)*h);
+  return ((L[11].y + L[12].y)/2 - earY) * h / Math.max(1, sw);
+}
+// ARMS — elbow bent AND fist lifted above the elbow ("strongman" pose). No calibration needed.
+function armTension(){
+  const L = obs.pose, W = obs.poseW; if (!L || !W) return 0;
+  const w = video.videoWidth || 640, h = video.videoHeight || 480;
+  const sw = Math.max(1, Math.hypot((L[11].x-L[12].x)*w, (L[11].y-L[12].y)*h));
+  let best = 0;
+  for (const [s,e,wr] of [[11,13,15],[12,14,16]]){
+    if (L[e].visibility < 0.5 || L[wr].visibility < 0.5) continue;
+    const u = [W[s].x-W[e].x, W[s].y-W[e].y, W[s].z-W[e].z], v = [W[wr].x-W[e].x, W[wr].y-W[e].y, W[wr].z-W[e].z];
+    const ang = Math.acos(clamp((u[0]*v[0]+u[1]*v[1]+u[2]*v[2]) / (Math.hypot(...u)*Math.hypot(...v) || 1), -1, 1)) * 180/Math.PI;
+    const lift = (L[e].y - L[wr].y) * h / sw;
+    best = Math.max(best, clamp((lift - 0.05)/0.35) * clamp((160 - ang)/50));
+  }
+  return best;
+}
+
+/* ---------------- Personal baseline (calibration) ---------------- */
+// Face and shoulders differ a lot between students, so we measure each student's relaxed
+// "normal" for ~2.5 s and count only the change from it. The baseline also drifts toward the
+// most relaxed value seen, so a slightly tense calibration corrects itself.
+let base = { face:null, shrug:null }, rawS = null, lastRaw = null, calib = null;
+function rawMetric(){ return curDet === 'face' ? faceScore() : curDet === 'shrug' ? shrugScore() : null; }
+function updateBaseline(dt){
+  lastRaw = (DEMO || forced !== null) ? null : rawMetric();
+  if (lastRaw === null) return;
+  rawS = rawS === null ? lastRaw : lerp(rawS, lastRaw, 1 - Math.exp(-dt/0.3));
+  if (calib) return;
+  const k = curDet;
+  const drift = 1 - Math.exp(-dt/6);                          // slow, so a brief smile or stretch doesn't reset it
+  if (base[k] === null) base[k] = rawS;                       // no calibration happened — start from now
+  else if (k === 'face' && rawS < base[k]) base[k] = lerp(base[k], rawS, drift);    // more relaxed than baseline → move toward it
+  else if (k === 'shrug' && rawS > base[k]) base[k] = lerp(base[k], rawS, drift);
+}
+function startCalib(k){ calib = { k, t:0, samples:[] }; }
+function calibTick(dt){
+  if (!calib) return true;
+  calib.t += dt;
+  if (DEMO || forced !== null){ if (calib.t > 2.5){ calib = null; return true; } return false; }
+  if (lastRaw !== null) calib.samples.push(lastRaw);
+  if ((calib.t > 2.5 && calib.samples.length >= 15) || calib.t > 8){
+    const s = calib.samples.sort((a,b) => a-b);
+    base[calib.k] = s.length ? s[s.length >> 1] : null; calib = null; return true;
+  }
+  return false;
+}
+
+/* ---------------- Tension signal ---------------- */
+let tension = 0, fastT = 0, fist = false, demoTarget = 0, forced = null;
+function computeTarget(now){
+  if (forced !== null) return forced;
+  if (DEMO) return demoTarget;
+  if (calib || now - obs.seenAt > 450) return 0;
+  const g = GAIN[S.sens] || 1;
+  switch (curDet){
+    case 'hand':  return obs.hands.length ? Math.max(...obs.hands.map(handTension)) : 0;
+    case 'arms':  return clamp(armTension() * g);
+    case 'face':  { const r = faceScore();  if (r === null || base.face === null)  return 0; return clamp((r - base.face - 0.03) / 0.25 * g); }
+    case 'shrug': { const r = shrugScore(); if (r === null || base.shrug === null) return 0; return clamp((base.shrug - r - 0.015) / 0.12 * g); }
+  }
+  return 0;
+}
+window.__relaxBuddy = { force:v => { forced = (v === null ? null : clamp(v)); },
+  get state(){ return { tension, fist, det:curDet, base, G: G && {i:G.i, phase:G.phase, remain:G.remain, det:G.det} }; } };
+if (DEMO){
+  const on = () => demoTarget = 1, off = () => demoTarget = 0;
+  addEventListener('keydown', e => { if (e.code === 'Space' && !$('#run').hidden){ e.preventDefault(); on(); } });
+  addEventListener('keyup', e => { if (e.code === 'Space') off(); });
+  $('#stage').addEventListener('pointerdown', on); addEventListener('pointerup', off);
+}
+
+/* ---------------- Background particles ---------------- */
+const bg = $('#bg'), bctx = bg.getContext('2d');
+let BW=0, BH=0, DPR=1; const parts = [];
+function sizeBg(){ DPR = Math.min(2, devicePixelRatio || 1); BW = innerWidth; BH = innerHeight; bg.width = BW*DPR; bg.height = BH*DPR; bctx.setTransform(DPR,0,0,DPR,0,0); }
+addEventListener('resize', sizeBg); sizeBg();
+const sprite = (() => { const c = document.createElement('canvas'); c.width = c.height = 64; const x = c.getContext('2d');
+  const g = x.createRadialGradient(32,32,0,32,32,32); g.addColorStop(0,'rgba(255,255,255,1)'); g.addColorStop(.4,'rgba(255,255,255,.5)'); g.addColorStop(1,'rgba(255,255,255,0)');
+  x.fillStyle = g; x.fillRect(0,0,64,64); return c; })();
+for (let i=0;i<110;i++) parts.push({ a:Math.random()*Math.PI*2, r:0.15 + Math.pow(Math.random(),0.7)*0.75, s:6 + Math.random()*22, sp:(Math.random()*2-1)*0.05, ph:Math.random()*10, hue:Math.random() });
+function drawBg(dt, time, t){
+  const cx = BW/2, cy = BH*0.42, R = Math.hypot(BW,BH)*0.55;
+  const g = bctx.createRadialGradient(cx,cy,0,cx,cy,R);
+  g.addColorStop(0, mixHex('#F6F2EC','#FBE4DA', t)); g.addColorStop(1, mixHex('#E4ECE9','#EFD9CF', t*0.8));
+  bctx.fillStyle = g; bctx.fillRect(0,0,BW,BH);
+  const calmA = hex2rgb('#8FB3AA'), calmB = hex2rgb('#A7BFD6'), hot = hex2rgb('#EE9A80');
+  for (const p of parts){
+    p.a += p.sp*dt*(1 + t*3);
+    const rr = p.r * (1 - 0.5*t) * R * 0.85;
+    const jit = t*t*4;
+    const x = cx + Math.cos(p.a)*rr + Math.sin(time*1.3 + p.ph)*10*(1-t) + (Math.random()-.5)*jit;
+    const y = cy + Math.sin(p.a)*rr*0.75 + Math.cos(time*1.1 + p.ph)*10*(1-t) + (Math.random()-.5)*jit;
+    const base = calmA.map((v,i) => lerp(v, calmB[i], p.hue));
+    const col = base.map((v,i) => Math.round(lerp(v, hot[i], t)));
+    const sz = p.s * (1 + 0.25*Math.sin(time*0.8 + p.ph)) * (1 - 0.3*t);
+    bctx.globalAlpha = 0.22 + 0.18*t;
+    bctx.drawImage(tintSprite(col), x - sz, y - sz, sz*2, sz*2);
+  }
+  bctx.globalAlpha = 1;
+}
+const tintCache = new Map();
+function tintSprite(rgb){
+  const key = rgb.map(v => v>>3).join(','); let c = tintCache.get(key); if (c) return c;
+  c = document.createElement('canvas'); c.width = c.height = 64; const x = c.getContext('2d');
+  x.drawImage(sprite,0,0); x.globalCompositeOperation = 'source-in'; x.fillStyle = `rgb(${rgb.join(',')})`; x.fillRect(0,0,64,64);
+  if (tintCache.size > 400) tintCache.clear(); tintCache.set(key, c); return c;
+}
+
+/* ---------------- Run-screen character ---------------- */
+let charEl = null, faceParts = null, calmFor = 0, blinkAt = 2, lastSpeechAt = -10, wasTense = false;
+const ringVal = $('#ringVal'), RC = 289.03;
+function mountCharacter(){
+  const wrap = $('#charWrap'); wrap.innerHTML = '';
+  if (S.charId === 'custom' && S.customImg){
+    const im = document.createElement('img'); im.alt = ''; im.src = customProcessed || S.customImg; wrap.appendChild(im); faceParts = null;
+  } else {
+    if (S.charId === 'custom') S.charId = 'puff';
+    wrap.innerHTML = charSVG(S.charId);
+    const q = s => wrap.querySelectorAll(s);
+    faceParts = { body:q('.bodyfill')[0], open:q('.f-open')[0], happy:q('.f-happy')[0], squeeze:q('.f-squeeze')[0],
+                   smile:q('.m-smile')[0], tense:q('.m-tense')[0], cheeks:[...q('.cheek')], sweat:q('.sweat')[0], base:CHARS[S.charId].color };
+  }
+  charEl = wrap;
+  // tension marks around the character
+  const sp = $('#sparks'); let h = '';
+  for (let k=0;k<8;k++){ const a = (k/8)*Math.PI*2 + Math.PI/8, r1 = 40, r2 = 47, x1 = 50+Math.cos(a)*r1, y1 = 50+Math.sin(a)*r1, x2 = 50+Math.cos(a)*r2, y2 = 50+Math.sin(a)*r2;
+    h += `<path d="M${x1.toFixed(1)} ${y1.toFixed(1)} L${x2.toFixed(1)} ${y2.toFixed(1)}" opacity="0"/>`; }
+  sp.innerHTML = h;
+}
+function updateCharacter(dt, time, t){
+  if (!charEl) return;
+  const sx = 1 + 0.10*t, sy = 1 - 0.13*t;
+  const trem = t > 0.35 ? Math.sin(time*42) * 4.5 * (t-0.35)/0.65 : 0;
+  const floatY = Math.sin(time*1.1) * 7 * (1-t);
+  const breath = 1 + Math.sin(time*0.9) * 0.025 * (1-t);
+  charEl.style.transform = `translate(${trem.toFixed(2)}px, ${(floatY + t*8).toFixed(2)}px) scale(${(sx*breath).toFixed(4)}, ${(sy*breath).toFixed(4)})`;
+  const glow = t > 0.05 ? `drop-shadow(0 0 ${(6+18*t).toFixed(1)}px rgba(232,131,107,${(0.55*t).toFixed(2)}))` : '';
+  charEl.style.filter = `drop-shadow(0 10px 16px rgba(70,82,90,.12)) ${glow}`;
+  calmFor = t < 0.18 ? calmFor + dt : 0;
+  if (faceParts){
+    const F = faceParts, tense = t > 0.55, happy = !tense && calmFor > 1.2;
+    F.body.setAttribute('fill', mixHex(F.base, WARM, 0.5*t));
+    F.squeeze.setAttribute('opacity', tense ? 1 : 0);
+    F.tense.setAttribute('opacity', tense ? 1 : 0);
+    F.smile.setAttribute('opacity', tense ? 0 : 1);
+    F.happy.setAttribute('opacity', happy ? 1 : 0);
+    let eyeScale = 1; blinkAt -= dt; if (blinkAt < 0){ eyeScale = 0.1; if (blinkAt < -0.12) blinkAt = 2.5 + Math.random()*3; }
+    F.open.setAttribute('opacity', (!tense && !happy) ? 1 : 0);
+    F.open.setAttribute('transform', `scale(1 ${eyeScale})`);
+    F.cheeks.forEach(c => c.setAttribute('opacity', (0.3 + 0.55*t).toFixed(2)));
+    F.sweat.setAttribute('opacity', clamp((t-0.65)/0.2).toFixed(2));
+  }
+  // ring & sparks
+  ringVal.style.strokeDashoffset = (RC*(1 - t)).toFixed(1);
+  ringVal.style.stroke = mixHex('#8FA39D', '#E8836B', clamp(t*1.3));
+  const so = clamp((t-0.35)/0.4);
+  $$('#sparks path').forEach((p,k) => { p.setAttribute('opacity', (so * (0.6 + 0.4*Math.sin(time*14 + k))).toFixed(2)); });
+  // bubbles when relaxed
+  bubbleClock -= dt;
+  if (t < 0.22 && bubbleClock < 0){ spawnBubble(); bubbleClock = 0.55 + Math.random()*0.5; }
+  // speech bubble on crossings
+  if (t > 0.72 && !wasTense){ wasTense = true; say(pick(T('tenseLines'))); }
+  if (t < 0.15 && wasTense){ wasTense = false; say(pick(T('relaxLines'))); }
+}
+let bubbleClock = 0;
+function spawnBubble(){
+  const layer = $('#bubbleLayer'); if (layer.childElementCount > 14) return;
+  const b = document.createElement('div'); b.className = 'bub';
+  const s = 10 + Math.random()*20; b.style.width = b.style.height = s + 'px';
+  b.style.left = (20 + Math.random()*60) + '%'; b.style.setProperty('--dx', ((Math.random()*2-1)*40) + 'px'); b.style.setProperty('--d', (3.2 + Math.random()*2) + 's');
+  layer.appendChild(b); b.addEventListener('animationend', () => b.remove());
+}
+const pick = a => a[(Math.random()*a.length)|0];
+let speechTimer = null;
+function say(text){
+  const el = $('#speech'); el.textContent = text.replaceAll('{name}', buddyName()); el.classList.add('show');
+  clearTimeout(speechTimer); speechTimer = setTimeout(() => el.classList.remove('show'), 2200);
+}
+
+/* ---------------- Camera mini preview ---------------- */
+const cc = $('#camCanvas'), cctx = cc.getContext('2d');
+const HAND_CONN = [[0,1],[1,2],[2,3],[3,4],[0,5],[5,6],[6,7],[7,8],[5,9],[9,10],[10,11],[11,12],[9,13],[13,14],[14,15],[15,16],[13,17],[17,18],[18,19],[19,20],[0,17]];
+const POSE_CONN = [[11,12],[11,13],[13,15],[12,14],[14,16],[7,11],[8,12]];
+function drawPreview(now){
+  const on = subjectOn(now, 450);
+  $('#camDot').classList.toggle('on', on);
+  if (!S.showCam || !stream || video.readyState < 2) return;
+  const W = cc.width, H = cc.height;
+  cctx.save(); cctx.translate(W,0); cctx.scale(-1,1); cctx.drawImage(video,0,0,W,H);
+  if (on){
+    cctx.strokeStyle = 'rgba(255,255,255,.9)'; cctx.lineWidth = 1.6; cctx.fillStyle = '#E8836B';
+    const line = (lm, conn, vis) => { cctx.beginPath(); for (const [a,b] of conn){ if (vis && (lm[a].visibility < .5 || lm[b].visibility < .5)) continue; cctx.moveTo(lm[a].x*W, lm[a].y*H); cctx.lineTo(lm[b].x*W, lm[b].y*H); } cctx.stroke(); };
+    const dots = (pts, r) => { for (const p of pts){ cctx.beginPath(); cctx.arc(p.x*W, p.y*H, r, 0, 7); cctx.fill(); } };
+    if (curDet === 'hand') for (const lm of obs.hands){ line(lm, HAND_CONN); dots(lm, 1.8); }
+    else if (curDet === 'face' && obs.faceLm) dots(obs.faceLm.filter((_,i) => i % 7 === 0), 1);
+    else if (obs.pose){ line(obs.pose, POSE_CONN, true); dots([0,7,8,11,12,13,14,15,16].map(i => obs.pose[i]).filter(p => p.visibility > .5), 2.2); }
+  }
+  cctx.restore();
+}
+
+/* ---------------- Guided session ---------------- */
+let G = null;          // guided state
+let F = null;          // free-mode state
+let ratings = { before:null, after:null };
+const P = (key, vars) => { let s = STR[S.lang].det[(G && G.det) || (F && F.det) || 'hand'][key]; for (const v in (vars||{})) s = s.replaceAll(`{${v}}`, vars[v]); return s; };
+function show(id){ ['home','loading','error','run'].forEach(s => $('#'+s).hidden = s !== id); document.body.style.overflow = id === 'home' ? '' : 'hidden'; }
+function setCard({label='', main='', status='', count='', hot=false, soft=false, det=null}){
+  $('#stepLabel').textContent = label; $('#mainText').textContent = main; $('#statusText').textContent = status;
+  const cn = $('#countNum'); cn.textContent = count; cn.classList.toggle('soft', soft);
+  $('#card').classList.toggle('hot', hot);
+  const chip = $('#detChip'); chip.hidden = !det; if (det) chip.textContent = T('watching', {d:T('detName')[det]});
+}
+function renderDots(){
+  const d = $('#dots'); d.innerHTML = '';
+  if (S.mode !== 'guided') return;
+  STEPS.forEach((_,k) => { const i = document.createElement('i'); if (G && k < G.i) i.className = 'done'; if (G && k === G.i) i.className = 'cur'; d.appendChild(i); });
+}
+function stepText(){
+  const s = STEPS[G.i][S.lang];
+  return { title:s.title, relax:s.relax, tense: (G.det === 'hand' && s.tenseFist) ? s.tenseFist : s.tense };
+}
+function beginStep(){
+  G.want = S.autoDet ? STEPS[G.i].det : 'hand';
+  G.det = null; renderDots();
+  G.label = T('step', {i:G.i+1, n:STEPS.length, title:STEPS[G.i][S.lang].title});
+  if (modelReady(G.want)) return useDet(G.want);
+  if (modelFailed(G.want) && G.want !== 'hand') return useDet('hand');
+  ensureModel(MODEL_OF[G.want]).catch(() => {});
+  go('loadModel');
+}
+function useDet(k){
+  G.det = k; setDet(k);
+  if (NEEDS_CALIB[k] && base[k] === null){ startCalib(k); go('calib'); }
+  else go('intro');
+}
+function go(phase){
+  G.phase = phase; G.t = 0;
+  const st = G.det ? stepText() : null;
+  if (phase === 'calib'){ speak(T('calibMain')[G.det].replaceAll('{name}', buddyName())); }
+  if (phase === 'intro'){ speak(`${st.title}${S.lang === 'zh' ? '。' : '. '}${st.tense}`); }
+  if (phase === 'hold'){ G.remain = S.tenseSec; sound.chime(); speak(T('holdSay')); }
+  if (phase === 'waitOpen'){ sound.chime(); speak(`${T('releaseSay')} ${st.relax}`); say(pick(T('relaxLines'))); }
+  if (phase === 'relax'){ G.remain = S.relaxSec; }
+}
+function startGuided(){
+  F = null;
+  G = { i:0, phase:'', t:0, remain:0, paused:false, pausedBySettings:false, label:'', det:null, want:'hand' };
+  $('#pauseBtn').hidden = false; $('#skipBtn').hidden = false; $('#spacer').hidden = true;
+  beginStep();
+}
+function nextStep(){
+  if (G.i >= STEPS.length - 1){ finishGuided(); return; }
+  G.i++; beginStep();
+}
+function guidedTick(dt, now){
+  if (!G || G.paused || G.pausedBySettings || G.phase === 'done') return;
+  G.t += dt;
+  if (G.phase === 'loadModel'){
+    if (modelReady(G.want)) useDet(G.want);
+    else if (modelFailed(G.want) || G.t > 15) useDet('hand');       // fall back to the fist signal
+    else setCard({label:G.label, main:T('loadingModel', {d:T('detName')[G.want]}), status:''});
+    return;
+  }
+  const st = stepText(), on = subjectOn(now), cb = {label:G.label, det:G.det};
+  switch (G.phase){
+    case 'calib':
+      if (calibTick(dt)){ go('intro'); break; }
+      setCard({...cb, main:T('calibMain')[G.det].replaceAll('{name}', buddyName()), status: on ? T('calibrating') : P('show'), soft:true}); break;
+    case 'intro':
+      if (G.t > 0.8 && fist) go('hold'); else if (G.t > 2.2) go('waitFist');
+      setCard({...cb, main:st.tense, status:P('ready')}); break;
+    case 'waitFist':
+      if (fist) go('hold');
+      setCard({...cb, main:st.tense, status: G.t > 12 ? T('tipSens') : P('ready')}); break;
+    case 'hold':
+      if (fist) G.remain -= dt;
+      if (G.remain <= 0 || G.t > S.tenseSec + 15){ go('waitOpen'); break; }   // never get stuck
+      setCard({...cb, main:st.tense, status: fist ? T('hold') : P('keep'), count:String(Math.ceil(G.remain)), hot:true}); break;
+    case 'waitOpen':
+      if ((!fist && fastT < 0.35) || (!on && G.t > 1) || G.t > 5) go('relax');
+      setCard({...cb, main:st.relax, status:P('release'), hot:true}); break;
+    case 'relax':
+      G.remain -= dt;
+      if (G.remain <= 0){ nextStep(); break; }
+      setCard({...cb, main:st.relax, status:T('relaxing'), count:String(Math.ceil(G.remain)), soft:true}); break;
+  }
+}
+function finishGuided(){
+  G.phase = 'done'; renderDots(); sound.chime();
+  setTimeout(() => sound.bell(1318.5, 0.06), 400);
+  openRating('after');
+}
+function togglePause(){
+  if (!G) return; G.paused = !G.paused; $('#pauseVeil').hidden = !G.paused;
+  $('#pauseIco').innerHTML = G.paused ? '<path d="M7 5l12 7-12 7z"/>' : '<rect x="6" y="5" width="4" height="14" rx="1.5"/><rect x="14" y="5" width="4" height="14" rx="1.5"/>';
+  $('#pauseBtn').setAttribute('aria-label', G.paused ? T('resume') : T('pause'));
+  if (G.paused) hush();
+}
+$('#pauseBtn').onclick = togglePause;
+$('#skipBtn').onclick = () => { if (!G || G.phase === 'done') return; hush(); calib = null; G.paused = false; $('#pauseVeil').hidden = true; nextStep(); };
+
+/* ---------------- Free mode ---------------- */
+function startFree(){
+  G = null; F = { cycles:0, armed:false, det:S.freeDet, phase:'load', t:0 };
+  $('#pauseBtn').hidden = true; $('#skipBtn').hidden = true; $('#spacer').hidden = false;
+  renderDots();
+  ensureModel(MODEL_OF[F.det]).catch(() => {});
+}
+function freeTick(dt, now){
+  if (!F) return;
+  F.t += dt;
+  const label = T('freeTitle');
+  if (F.phase === 'load'){
+    if (modelReady(F.det)){
+      setDet(F.det);
+      if (NEEDS_CALIB[F.det]){ startCalib(F.det); F.phase = 'calib'; speak(T('calibMain')[F.det].replaceAll('{name}', buddyName())); }
+      else { F.phase = 'run'; speak(P('free', {name:buddyName()})); }
+    } else if (modelFailed(F.det)){ F.det = 'hand'; ensureModel('hand').catch(() => {}); }
+    else setCard({label, main:T('loadingModel', {d:T('detName')[F.det]})});
+    return;
+  }
+  if (F.phase === 'calib'){
+    if (calibTick(dt)){ F.phase = 'run'; speak(P('free', {name:buddyName()})); }
+    setCard({label, det:F.det, main:T('calibMain')[F.det].replaceAll('{name}', buddyName()), status: subjectOn(now) ? T('calibrating') : P('show'), soft:true});
+    return;
+  }
+  if (tension > 0.7) F.armed = true;
+  if (F.armed && tension < 0.15){ F.armed = false; F.cycles++; sound.bell(783.99, 0.06); }
+  setCard({ label, det:F.det, main:P('free', {name:buddyName()}),
+            status: F.cycles ? T('freeStatus', {n:F.cycles}) : P('start'), hot: tension > 0.55 });
+}
+
+/* ---------------- Rating ---------------- */
+const RATE_COL = ['#8FC4A8','#B4D3A2','#E9D38D','#F0B084','#E8836B'];
+function faceIcon(k){
+  const mouths = ['M13 27 Q20 34 27 27','M14 27 Q20 31 26 27','M14 28 L26 28','M14 30 Q20 26 26 30','M13 31 Q20 24 27 31'];
+  const eyes = k === 4 ? '<path d="M11 14 L16 17 L11 20 M29 14 L24 17 L29 20" stroke="#3A3F4B" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>'
+    : k === 0 ? '<path d="M11 18 Q14 14 17 18 M23 18 Q26 14 29 18" stroke="#3A3F4B" stroke-width="2.2" fill="none" stroke-linecap="round"/>'
+    : '<circle cx="14" cy="17" r="2.4" fill="#3A3F4B"/><circle cx="26" cy="17" r="2.4" fill="#3A3F4B"/>';
+  return `<svg viewBox="0 0 40 40"><circle cx="20" cy="20" r="18" fill="${RATE_COL[k]}"/>${eyes}<path d="${mouths[k]}" stroke="#3A3F4B" stroke-width="2.2" fill="none" stroke-linecap="round"/></svg>`;
+}
+let rateWhich = 'before';
+function openRating(which){
+  rateWhich = which; $('#rateTitle').textContent = T(which === 'before' ? 'rateBefore' : 'rateAfter');
+  const sc = $('#scale'); sc.innerHTML = '';
+  T('rates').forEach((lab,k) => { const b = document.createElement('button'); b.type='button'; b.innerHTML = faceIcon(k) + `<span>${lab}</span>`; b.onclick = () => rated(k); sc.appendChild(b); });
+  $('#rate').hidden = false;
+  if (which === 'after') speak(T('rateAfter'));
+}
+function rated(k){
+  ratings[rateWhich] = k; $('#rate').hidden = true;
+  if (rateWhich === 'before'){ beginSession(); }
+  else showDone();
+}
+$('#rateSkip').onclick = () => rated(null);
+function showDone(){
+  const pic = $('#donePic');
+  if (S.charId === 'custom' && S.customImg) pic.innerHTML = `<img alt="" src="${customProcessed || S.customImg}">`; else { pic.innerHTML = charSVG(S.charId); pic.querySelector('.f-open').setAttribute('opacity',0); pic.querySelector('.f-happy').setAttribute('opacity',1); }
+  $('#doneSub').textContent = T('doneSub', {name:buddyName(), n:STEPS.length});
+  const cmp = $('#compare'); cmp.innerHTML = '';
+  if (ratings.before !== null || ratings.after !== null){
+    const chip = (lab, k) => k === null ? '' : `<div class="chip"><small>${lab}</small>${faceIcon(k)}<b>${T('rates')[k]}</b></div>`;
+    cmp.innerHTML = chip(T('before'), ratings.before) + (ratings.before !== null && ratings.after !== null ? '<span class="arrow">→</span>' : '') + chip(T('after'), ratings.after);
+  }
+  $('#done').hidden = false; speak(`${T('doneTitle')}${T('doneSub', {name:buddyName(), n:STEPS.length})}`);
+}
+$('#doneHome').onclick = () => { $('#done').hidden = true; exitToHome(); };
+$('#doneAgain').onclick = () => { $('#done').hidden = true; S.mode = 'guided'; save(); ratings = {before:null, after:null}; openRating('before'); };
+$('#doneFree').onclick = () => { $('#done').hidden = true; S.mode = 'free'; save(); beginSession(); };
+
+/* ---------------- Start / stop ---------------- */
+let running = false;
+async function start(){
+  sound.ensure();                     // unlock audio inside the click
+  if ('speechSynthesis' in window){ try{ speechSynthesis.cancel(); }catch(e){} }
+  mountCharacter(); applyStatic();
+  $('#camBox').hidden = !S.showCam || DEMO;
+  if (!DEMO){
+    show('loading');
+    const first = S.mode === 'free' ? MODEL_OF[S.freeDet] : 'hand';
+    try{ await Promise.all([startCamera(), ensureModel(first)]); }
+    catch(err){ console.error(err); return fail(err); }
+    // load the other detectors quietly while the student starts with the hands
+    if (S.mode === 'guided' && S.autoDet){ ensureModel('face').catch(() => {}); ensureModel('pose').catch(() => {}); }
+  }
+  show('run');
+  ratings = { before:null, after:null };
+  if (S.mode === 'guided') openRating('before'); else beginSession();
+}
+function beginSession(){
+  running = true; sound.setMode(S.sound); updateMuteIcon();
+  base = { face:null, shrug:null }; calib = null;          // re-measure each student's baseline every session
+  if (S.mode === 'guided') startGuided(); else startFree();
+}
+function fail(err){
+  const name = err && err.name || '';
+  let title = T('errModel'), msg = T('errModelMsg');
+  if (/NotAllowed|Security|Permission/i.test(name)){ title = T('errCam'); msg = T('errCamMsg'); }
+  else if (/NotFound|NotReadable|Overconstrained|Abort/i.test(name) || !navigator.mediaDevices){ title = T('errNoCam'); msg = T('errNoCamMsg'); }
+  $('#errTitle').textContent = title; $('#errMsg').textContent = msg; show('error');
+}
+function exitToHome(){
+  running = false; G = null; F = null; calib = null; hush(); sound.stop(); stopCamera(); setDet('hand'); obs.hands = []; obs.seenAt = -1e9;
+  $('#rate').hidden = true; $('#done').hidden = true; $('#pauseVeil').hidden = true;
+  show('home'); renderHome();
+}
+$('#startBtn').onclick = start;
+$('#errRetry').onclick = start;
+$('#errBack').onclick = exitToHome;
+$('#exitBtn').onclick = exitToHome;
+function updateMuteIcon(){
+  const off = S.sound === 'off';
+  $('#muteIco').innerHTML = off
+    ? '<path d="M11 5L6 9H2v6h4l5 4z" fill="currentColor"/><path d="M22 9l-6 6M16 9l6 6"/>'
+    : '<path d="M11 5L6 9H2v6h4l5 4z" fill="currentColor"/><path d="M15.5 8.5a5 5 0 0 1 0 7M19 5a10 10 0 0 1 0 14"/>';
+}
+let lastSound = S.sound === 'off' ? 'wind' : S.sound;
+$('#muteBtn').onclick = () => {
+  if (S.sound === 'off'){ S.sound = lastSound; } else { lastSound = S.sound; S.sound = 'off'; }
+  save(); sound.setMode(S.sound); updateMuteIcon();
+};
+
+/* ---------------- Main loop ---------------- */
+let lastNow = performance.now(), clock = 0;
+function frame(now){
+  const dt = Math.min(0.05, (now - lastNow) / 1000); lastNow = now; clock += dt;
+  let t = 0;
+  if (!$('#run').hidden){
+    if (!DEMO) detect(now);
+    updateBaseline(dt);
+    const target = computeTarget(now);
+    const k = target > tension ? 1 - Math.exp(-dt/0.15) : 1 - Math.exp(-dt/0.8);   // tense fast, relax slowly
+    tension += (target - tension) * k;
+    fastT += (target - fastT) * (1 - Math.exp(-dt/0.08));
+    if (!fist && fastT > 0.6) fist = true; else if (fist && fastT < 0.4) fist = false;
+    t = tension;
+    updateCharacter(dt, clock, t);
+    if (running){ guidedTick(dt, now); freeTick(dt, now); sound.setTension(t); }
+    const active = running && ((F && F.phase !== 'load') || (G && ['calib','intro','waitFist','hold'].includes(G.phase)));
+    $('#handPillText').textContent = P('show');
+    $('#handPill').style.opacity = (active && !subjectOn(now, 1000)) ? 1 : 0;
+    drawPreview(now);
+  }
+  drawBg(dt, clock, t);
+  requestAnimationFrame(frame);
+}
+
+/* ---------------- Boot ---------------- */
+(async () => {
+  if (!['puff','mochi','drip','custom'].includes(S.charId)) S.charId = 'puff';
+  if (S.charId === 'custom' && !S.customImg) S.charId = 'puff';
+  await processCustom().catch(() => {});
+  show('home'); renderHome(); updateMuteIcon();
+  requestAnimationFrame(frame);
+})();
+</script>
+</body>
+</html>
